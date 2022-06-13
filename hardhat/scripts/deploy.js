@@ -1,10 +1,10 @@
-import { ethers } from "hardhat";
-require("dotenv").config({ path = ".env" });
+const { ethers } = require("hardhat");
+require("dotenv").config({ path: ".env" });
 
 const NFT_CONTRACT_ADDRESS = process.env.NFT_CONTRACT_ADDRESS;
 
 async function main() {
-    const contract = await (await ethers.getContractFactory("MyToken.sol")).deploy(
+    const contract = await (await ethers.getContractFactory("MyToken")).deploy(
         // price per token
         ethers.utils.parseEther("0.001"),
         // token amount limit
