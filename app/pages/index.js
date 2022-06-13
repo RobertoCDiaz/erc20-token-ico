@@ -28,6 +28,8 @@ export default function Home() {
   // Web3Modal reference.
   const web3modal = useRef();
 
+  const inputRef = useRef(null);
+
   /**
    * A helper function that truncates an address to match the `0x000...0000` format.
    * 
@@ -241,9 +243,6 @@ export default function Home() {
         "You are not connected to a wallet!"
       );
     }
-
-    // tokens input element
-    let inputRef = useRef(null);
 
     // what to do when mint button is clicked
     const onMintButtonClick = async () => {
