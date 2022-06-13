@@ -1,5 +1,11 @@
-.app, .content {
+.app {
     height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.app * {
+    flex-grow: 0;
 }
 
 .content {
@@ -8,6 +14,7 @@
     justify-content: center;
     align-items: center;
     column-gap: 5em;
+    flex-grow: 1;
 }
 
 .info {
@@ -52,4 +59,16 @@
 
 .input {
     padding: .5em 1em;
+}
+
+.footer {
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.address {
+    font-style: italic;
 }

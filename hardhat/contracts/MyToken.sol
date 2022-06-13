@@ -1,22 +1,22 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import "../node_modules/@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "../node_modules/@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 import "./INFTContract.sol";
 
 contract MyToken is ERC20, Ownable {
     // price for one token at the moment of the ICO
-    uint256 _price;
+    uint256 public _price;
 
     // limit of tokens available
-    uint256 _tokenLimit;
+    uint256 public _tokenLimit;
 
     // keeps track of how many tokens have been minted
     uint256 public tokenCount;
 
     // number of tokens given to NFT holders for each NFT.
-    uint256 public tokensPerNFT = 10 * (10 ** 18);
+    uint256 public tokensPerNFT = 10;
 
     // instance of the NFT contract
     INFTContract _nftContract;
@@ -29,7 +29,7 @@ contract MyToken is ERC20, Ownable {
      */
     constructor(uint256 icoTokenPrice, uint256 tokenLimit, address nftContractAddress) ERC20("MTI", "My Token ICO") {
         // set values provided on deployment
-        _price = icoTokenPrice * (10 ** 18);
+        _price = icoTokenPrice;
         _tokenLimit = tokenLimit * (10 ** 18);
 
         // get the actual NFT contract and associate to our interface
@@ -46,10 +46,10 @@ contract MyToken is ERC20, Ownable {
         uint256 _priceToPay = amount * _price;
 
         require(msg.value >= _priceToPay, "Ether sent is incorrect.");
-        require(tokenCount + amount <= _tokenLimit, "Your requested amount of tokens will surpass the currently available tokens. Please, try to mint a lower amount.");
+        require(tokenCount + (amount * (10 ** 18)) <= _tokenLimit, "Your requested amount of tokens will surpass the currently available tokens. Please, try to mint a lower amount.");
 
-        _mint(msg.sender, 1 * (10 ** 18));
-        tokenCount += amount;
+        _mint(msg.sender, amount * (10 ** 18));
+        tokenCount += amount * (10 ** 18);
     }
 
     /**
@@ -78,7 +78,14 @@ contract MyToken is ERC20, Ownable {
         require(unclaimedNFTs > 0, "You have claimed all of your NFTs");
 
         // mint all the corresponding tokens for all the nfts the user owns.
-        _mint(msg.sender, unclaimedNFTs * tokensPerNFT);
+        _mint(msg.sender, unclaimedNFTs * tokensPerNFT * (10 ** 18));
+    }
+
+    /**
+        Returns the amount of NFTs the user owns.
+     */
+    function ownedNFTs() public view returns(uint256) {
+        return _nftContract.balanceOf(msg.sender);
     }
 
     /**
