@@ -300,9 +300,9 @@ export default function Home() {
       <div className={styles.content}>
         <div className={styles.info}>
           <h1>Welcome to the new crypto-token ICO!</h1>
-          <p className={styles.description}>Here you can mint tokens for a price of 0.001 Ether!</p>
-          <p className={styles.description}>Currently, you own a total of <span className={styles.highlight}>{ ownedTokens }</span> tokens</p>
-          <p>Overall, a total of <span className={styles.highlight}>{mintedTokens}/{tokenLimit}</span> tokens have been minted!</p>
+          { isWalletConnected && <p className={styles.description}>Here you can mint tokens for a price of 0.001 Ether!</p> }
+          { isWalletConnected && <p className={styles.description}>Currently, you own a total of <span className={styles.highlight}>{ ownedTokens }</span> tokens</p> }
+          { isWalletConnected && <p>Overall, a total of <span className={styles.highlight}>{mintedTokens}/{tokenLimit}</span> tokens have been minted!</p> }
           <StateControl />
         </div>
         <img className={styles.image} src="https://raw.githubusercontent.com/RobertoCDiaz/nft-collection/main/app/public/nfts/0.svg" alt="NFT logo" />
